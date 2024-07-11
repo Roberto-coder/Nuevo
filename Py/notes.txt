@@ -1,0 +1,7 @@
+Request - simple HTTP library.
+
+Scapy - send, sniff, dissect and forge network packets
+https://scapy.readthedocs.io/en/latest/introduction.html
+
+Pwntools - a CTF & exploit development library.
+https://docs.pwntools.com/en/stable/
