@@ -26,37 +26,48 @@ def heuristica_diagonal(a, b):
     D2 = 14  # Costo de moverse en diagonal
     return D1 * (dx + dy) + (D2 - 2 * D1) * min(dx, dy)
 
+def eliminar_de_lista(lista, indice):
+    # Mover todos los elementos después del índice hacia la izquierda
+    for i in range(indice, len(lista) - 1):
+        lista[i] = lista[i + 1]
+    # Reducir el tamaño de la lista
+    lista[:] = lista[:-1]
+
+# Función para agregar elementos usando índices
+def agregar_a_lista(arr, valor):
+    # Expandir la lista en 1 unidad
+    arr.append(None)  # Añadir un espacio vacío
+    # Asignar el nuevo valor en la siguiente posición
+    arr[len(arr) - 1] = valor
 
 def A_estrella(maze, punto_inicial, meta):
     # Lista para manejar los nodos por explorar (pila)
-    lista_abierta = [(punto_inicial,0,heuristica_diagonal(punto_inicial,meta), [])]
-    ##lista abierta = (nodo,g,h,camino)
+    lista_abierta = [(punto_inicial, 0, heuristica_diagonal(punto_inicial, meta), [])]
+    ##lista abierta = (nodo, g, h, camino)
     considerados = []
     # Matriz de visitados
     filas = np.shape(maze)[0]
     columnas = np.shape(maze)[1]
     lista_cerrada = np.zeros((filas, columnas))
     ##lista_cerrada = np.zeros_like(laberinto)
-    while (len(lista_abierta) > 0) :
+    while len(lista_abierta) > 0:
         menor_h = lista_abierta[0][2]
         nodo_actual, g_actual, h_actual, camino_actual = lista_abierta[0]
         indice_menor_h = 0
 
         ##Se recorre la posicion 2 de la fila i-esima(Distancia manhattan) de la lista abierta preguntando¿Cual es el de menor_valor?(Menor energia)
-        ##Obtener el nodo actual a´partir del menor f, (h la primera vez g=0)
-        for i in range(1,len(lista_abierta)) :
+        ##Obtener el nodo actual a partir del menor f, (h la primera vez g=0)
+        for i in range(1, len(lista_abierta)):
             if lista_abierta[i][2] < menor_h:
                 menor_h = lista_abierta[i][2]
                 nodo_actual, g_actual, h_actual, camino_actual = lista_abierta[i]
                 indice_menor_h = i
 
         ##Eliminarlo de la lista abierta
-        ##lista_abierta = lista_abierta[:indice_menor_h] + lista_abierta[indice_menor_h:]
-        ## Eliminar de lista_abierta el nodo actual con menor h
-        lista_abierta.pop(indice_menor_h)
+        eliminar_de_lista(lista_abierta, indice_menor_h)
         
-        ##  Guardar todos los nodos que fueron evaluados aunque no formen parte del camino actual
-        considerados += [nodo_actual]
+        ## Guardar todos los nodos que fueron evaluados aunque no formen parte del camino actual
+        agregar_a_lista(considerados, nodo_actual)
         ##Evaluamos si el nodo actual es o no el nodo meta
         if nodo_actual == meta:
             return camino_actual + [nodo_actual], considerados
@@ -67,16 +78,16 @@ def A_estrella(maze, punto_inicial, meta):
         for direccion in movimientos:
             nueva_posicion = (nodo_actual[0] + direccion[0], nodo_actual[1] + direccion[1])
             # Ver que el vecino (nueva posición) esté dentro del laberinto
-            if ((0 <= nueva_posicion[0] < filas) and (0 <= nueva_posicion[1] < columnas)):
+            if (0 <= nueva_posicion[0] < filas) and (0 <= nueva_posicion[1] < columnas):
                 ##Si no es un muro y no esta en la lista cerrada
-                if (maze[nueva_posicion[0]][nueva_posicion[1]] == 0 and lista_cerrada[nueva_posicion[0], nueva_posicion[1]] == 0):
+                if maze[nueva_posicion[0]][nueva_posicion[1]] == 0 and lista_cerrada[nueva_posicion[0], nueva_posicion[1]] == 0:
                     ##Evaluamos si el movimiento o direccion es diagonal
-                    if abs(direccion[0])+abs(direccion[1]) == 2 :
-                        g_nuevo=g_actual + 14
+                    if abs(direccion[0]) + abs(direccion[1]) == 2:
+                        g_nuevo = g_actual + 14
                     else:
-                        g_nuevo=g_actual + 10
+                        g_nuevo = g_actual + 10
 
-                    f_nuevo = g_nuevo + heuristica_diagonal(nueva_posicion,meta)
+                    f_nuevo = g_nuevo + heuristica_diagonal(nueva_posicion, meta)
 
                     bandera_lista = False
                     for nodo, g, f, camino in lista_abierta:
@@ -84,14 +95,13 @@ def A_estrella(maze, punto_inicial, meta):
                         ##Si el vecino.g es mayor que el costo g del que esta en la lista abierta
                         if nodo == nueva_posicion and g <= g_nuevo:
                             bandera_lista = True
-                            break;
-                    if bandera_lista == False:
+                            break
+                    if not bandera_lista:
                         ##Poner el vecino en la lista abierta
-                        lista_abierta += [(nueva_posicion, g_nuevo, f_nuevo, camino_actual + [nueva_posicion])]
+                        agregar_a_lista(lista_abierta, (nueva_posicion, g_nuevo, f_nuevo, camino_actual + [nueva_posicion]))
 
     print("No se encontró la solución.")
     return None, considerados
-
 
 def desplegar_leberinto(maze, camino=None, considerados=None):
     plt.imshow(maze, cmap='binary')
@@ -107,9 +117,3 @@ def desplegar_leberinto(maze, camino=None, considerados=None):
 
 camino, considerados = A_estrella(laberinto, punto_inicial, meta)
 desplegar_leberinto(laberinto, camino, considerados)
-
-
-
-
-
-
