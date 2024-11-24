@@ -19,7 +19,7 @@ def get_neighbors(node, grid, cols, rows):
     return neighbors
 
 # Algoritmo A*
-def a_star(start, end, grid, cols, rows, draw_grid, speed=2):
+def a_star(start, end, grid, cols, rows, draw_grid, speed=0.5):
     open_set = []
     heapq.heappush(open_set, (0, start))
     came_from = {}
@@ -56,7 +56,7 @@ def a_star(start, end, grid, cols, rows, draw_grid, speed=2):
     return []  # Retorna vacío si no hay solución
 
 # Algoritmo Dijkstra
-def dijkstra(start, end, grid, cols, rows, draw_grid, speed=2):
+def dijkstra(start, end, grid, cols, rows, draw_grid, speed=0.5):
     open_set = []
     heapq.heappush(open_set, (0, start))
     came_from = {}
@@ -91,7 +91,7 @@ def dijkstra(start, end, grid, cols, rows, draw_grid, speed=2):
     return []
 
 # Algoritmo BFS
-def bfs(start, end, grid, cols, rows, draw_grid, speed=2):
+def bfs(start, end, grid, cols, rows, draw_grid, speed=0.5):
     queue = deque([start])
     came_from = {start: None}
     visited = set()
@@ -125,7 +125,7 @@ def bfs(start, end, grid, cols, rows, draw_grid, speed=2):
     return []
 
 # Algoritmo DFS
-def dfs(start, end, grid, cols, rows, draw_grid, speed=2):
+def dfs(start, end, grid, cols, rows, draw_grid, speed=0.5):
     stack = [start]
     came_from = {start: None}
     visited = set()

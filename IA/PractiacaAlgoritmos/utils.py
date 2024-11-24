@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Constantes de colores (RGB)
 WHITE = (255, 255, 255)
@@ -20,6 +21,22 @@ def create_grid(rows, cols):
     - 1: Obstáculo.
     """
     return [[0 for _ in range(cols)] for _ in range(rows)]
+
+# Función para generar obstáculos aleatorios
+def generate_obstacles(grid, occupancy=0.3):
+    """
+    Genera obstáculos aleatorios en la cuadrícula.
+    - grid: La cuadrícula 2D.
+    - occupancy: Porcentaje de celdas ocupadas por obstáculos.
+    """
+    rows = len(grid)
+    cols = len(grid[0])
+    num_obstacles = int(rows * cols * occupancy)
+    for _ in range(num_obstacles):
+        row = random.randint(0, rows - 1)
+        col = random.randint(0, cols - 1)
+        if grid[row][col] == 0:  # Solo colocar en espacios libres
+            grid[row][col] = 1
 
 # Función para dibujar la cuadrícula en pantalla
 def draw_grid(screen, grid, rows, cols, cell_size):

@@ -1,7 +1,7 @@
 import pygame
 import time
 from algorithms import a_star, dijkstra, bfs, dfs
-from utils import draw_grid, create_grid
+from utils import draw_grid, create_grid, generate_obstacles
 
 # Constantes de la ventana
 WIDTH, HEIGHT = 600, 600
@@ -44,6 +44,7 @@ def main():
     grid = create_grid(COLS, ROWS)
     start = None
     end = None
+    algorithm = None
     running = True
 
     while running:
@@ -55,7 +56,7 @@ def main():
                 running = False
                 pygame.quit()
 
-            # Seleccionar punto inicial y final
+            # Seleccionar punto inicial, final y obstáculos
             if pygame.mouse.get_pressed()[0]:  # Click izquierdo
                 x, y = pygame.mouse.get_pos()
                 row, col = y // BLOCK_SIZE, x // BLOCK_SIZE
@@ -65,13 +66,18 @@ def main():
                 elif not end:
                     end = (row, col)
                     grid[row][col] = 3  # Nodo final
+                    # Seleccionar algoritmo después de colocar el nodo final
+                    algorithm = select_algorithm()
+                    print(f"Ejecutando {algorithm.__name__}...")
+                    
+                else:
+                    if grid[row][col] == 1:
+                        grid[row][col] = 0  # Convertir obstáculo en espacio libre
+                    else:
+                        grid[row][col] = 1  # Convertir espacio libre en obstáculo
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and start and end:
-                    # Seleccionar algoritmo
-                    algorithm = select_algorithm()
-                    print(f"Ejecutando {algorithm.__name__}...")
-
                     # Ejecutar el algoritmo
                     path = algorithm(
                         start, end, grid, COLS, ROWS,
@@ -86,6 +92,11 @@ def main():
                             pygame.display.flip()  # Actualiza la pantalla
 
                     print("Algoritmo completado.")
+
+                # Generar obstáculos aleatorios
+                if event.key == pygame.K_g:
+                    generate_obstacles(grid)
+                    print("Generando obstáculos aleatorios...")
 
                 # Reiniciar la cuadrícula
                 if event.key == pygame.K_r:
