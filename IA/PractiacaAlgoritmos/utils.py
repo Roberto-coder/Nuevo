@@ -69,6 +69,8 @@ def draw_grid(screen, grid, rows, cols, cell_size):
         pygame.draw.line(screen, GREY, (0, row * cell_size), (cols * cell_size, row * cell_size))
     for col in range(cols):
         pygame.draw.line(screen, GREY, (col * cell_size, 0), (col * cell_size, rows * cell_size))
+    
+    pygame.display.flip()  # Actualiza la pantalla después de dibujar la cuadrícula
 
 # Función para convertir coordenadas de clic a una celda de la cuadrícula
 def get_clicked_pos(pos, cell_size):

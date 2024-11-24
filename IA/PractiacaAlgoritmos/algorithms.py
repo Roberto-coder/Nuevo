@@ -51,6 +51,7 @@ def a_star(start, end, grid, cols, rows, draw_grid, speed=0.5):
             grid[current[0]][current[1]] = 5  # Nodo cerrado
 
         draw_grid()
+        pygame.display.flip()  # Actualiza la pantalla
         time.sleep(speed)
 
     return []  # Retorna vacío si no hay solución
@@ -86,6 +87,7 @@ def dijkstra(start, end, grid, cols, rows, draw_grid, speed=0.5):
             grid[current[0]][current[1]] = 5
 
         draw_grid()
+        pygame.display.flip()  # Actualiza la pantalla
         time.sleep(speed)
 
     return []
@@ -120,6 +122,7 @@ def bfs(start, end, grid, cols, rows, draw_grid, speed=0.5):
             grid[current[0]][current[1]] = 5
 
         draw_grid()
+        pygame.display.flip()  # Actualiza la pantalla
         time.sleep(speed)
 
     return []
@@ -154,6 +157,7 @@ def dfs(start, end, grid, cols, rows, draw_grid, speed=0.5):
             grid[current[0]][current[1]] = 5
 
         draw_grid()
+        pygame.display.flip()  # Actualiza la pantalla
         time.sleep(speed)
 
     return []

@@ -104,6 +104,8 @@ def main():
                     grid = create_grid(COLS, ROWS)
                     print("Reiniciando cuadrícula...")
 
+        pygame.time.delay(50)  # Añade un pequeño retraso para permitir la actualización de la pantalla
+
     pygame.quit()
 
 if __name__ == "__main__":
