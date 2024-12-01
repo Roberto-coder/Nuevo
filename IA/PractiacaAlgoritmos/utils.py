@@ -91,3 +91,23 @@ def reset_grid(grid):
         for col in range(len(grid[row])):
             if grid[row][col] != 1:  # Mantener los obstáculos
                 grid[row][col] = 0
+
+# Función para establecer la posición de inicio
+def set_start(grid, pos):
+    """
+    Establece la posición de inicio en la cuadrícula.
+    - grid: La cuadrícula 2D.
+    - pos: (fila, columna) posición de inicio.
+    """
+    row, col = pos
+    grid[row][col] = 2
+
+# Función para establecer la posición final
+def set_end(grid, pos):
+    """
+    Establece la posición final en la cuadrícula.
+    - grid: La cuadrícula 2D.
+    - pos: (fila, columna) posición final.
+    """
+    row, col = pos
+    grid[row][col] = 3
