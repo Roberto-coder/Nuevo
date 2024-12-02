@@ -1,5 +1,5 @@
-import pygame
-import random
+import pygame  # Importa la librería pygame para crear la interfaz gráfica
+import random  # Importa random para generar obstáculos aleatorios
 
 # Constantes de colores (RGB)
 WHITE = (255, 255, 255)

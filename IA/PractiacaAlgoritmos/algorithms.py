@@ -1,16 +1,16 @@
-import heapq
-import pygame
-import time
-from collections import deque
+import heapq  # Importa heapq para usar colas de prioridad
+import pygame  # Importa pygame para actualizar la interfaz gráfica
+import time  # Importa time para controlar la velocidad de la animación
+from collections import deque  # Importa deque para usar colas en BFS
 
-# Heurística de Manhattan (para A* y opcionalmente para Dijkstra)
+# Heurística de Manhattan 
 def heuristic(a, b):
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
 
 # Obtener vecinos válidos
 def get_neighbors(node, grid, cols, rows):
     x, y = node
-    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # Direcciones de movimiento (arriba, abajo, izquierda, derecha)
     neighbors = []
     for dx, dy in directions:
         nx, ny = x + dx, y + dy
@@ -21,15 +21,15 @@ def get_neighbors(node, grid, cols, rows):
 # Algoritmo A*
 def a_star(start, end, grid, cols, rows, draw_grid, speed=0.5):
     open_set = []
-    heapq.heappush(open_set, (0, start))
+    heapq.heappush(open_set, (0, start))  # Añade el nodo inicial a la cola de prioridad
     came_from = {}
     g_score = {start: 0}
     f_score = {start: heuristic(start, end)}
 
     while open_set:
-        _, current = heapq.heappop(open_set)
+        _, current = heapq.heappop(open_set)  # Obtiene el nodo con menor f_score
 
-        if current == end:
+        if current == end:  # Si se alcanza el nodo final
             path = []
             while current in came_from:
                 path.append(current)
@@ -52,21 +52,21 @@ def a_star(start, end, grid, cols, rows, draw_grid, speed=0.5):
 
         draw_grid()
         pygame.display.flip()  # Actualiza la pantalla
-        time.sleep(speed)
+        time.sleep(speed)  # Controla la velocidad de la animación
 
     return []  # Retorna vacío si no hay solución
 
 # Algoritmo Dijkstra
 def dijkstra(start, end, grid, cols, rows, draw_grid, speed=0.5):
     open_set = []
-    heapq.heappush(open_set, (0, start))
+    heapq.heappush(open_set, (0, start))  # Añade el nodo inicial a la cola de prioridad
     came_from = {}
     distances = {start: 0}
 
     while open_set:
-        _, current = heapq.heappop(open_set)
+        _, current = heapq.heappop(open_set)  # Obtiene el nodo con menor distancia
 
-        if current == end:
+        if current == end:  # Si se alcanza el nodo final
             path = []
             while current in came_from:
                 path.append(current)
@@ -88,21 +88,21 @@ def dijkstra(start, end, grid, cols, rows, draw_grid, speed=0.5):
 
         draw_grid()
         pygame.display.flip()  # Actualiza la pantalla
-        time.sleep(speed)
+        time.sleep(speed)  # Controla la velocidad de la animación
 
-    return []
+    return []  # Retorna vacío si no hay solución
 
 # Algoritmo BFS
 def bfs(start, end, grid, cols, rows, draw_grid, speed=0.5):
-    queue = deque([start])
+    queue = deque([start])  # Cola para BFS
     came_from = {start: None}
     visited = set()
     visited.add(start)
 
     while queue:
-        current = queue.popleft()
+        current = queue.popleft()  # Obtiene el primer nodo de la cola
 
-        if current == end:
+        if current == end:  # Si se alcanza el nodo final
             path = []
             while current in came_from:
                 path.append(current)
@@ -123,21 +123,21 @@ def bfs(start, end, grid, cols, rows, draw_grid, speed=0.5):
 
         draw_grid()
         pygame.display.flip()  # Actualiza la pantalla
-        time.sleep(speed)
+        time.sleep(speed)  # Controla la velocidad de la animación
 
-    return []
+    return []  # Retorna vacío si no hay solución
 
 # Algoritmo DFS
 def dfs(start, end, grid, cols, rows, draw_grid, speed=0.5):
-    stack = [start]
+    stack = [start]  # Pila para DFS
     came_from = {start: None}
     visited = set()
     visited.add(start)
 
     while stack:
-        current = stack.pop()
+        current = stack.pop()  # Obtiene el último nodo de la pila
 
-        if current == end:
+        if current == end:  # Si se alcanza el nodo final
             path = []
             while current in came_from:
                 path.append(current)
@@ -158,6 +158,6 @@ def dfs(start, end, grid, cols, rows, draw_grid, speed=0.5):
 
         draw_grid()
         pygame.display.flip()  # Actualiza la pantalla
-        time.sleep(speed)
+        time.sleep(speed)  # Controla la velocidad de la animación
 
-    return []
+    return []  # Retorna vacío si no hay solución

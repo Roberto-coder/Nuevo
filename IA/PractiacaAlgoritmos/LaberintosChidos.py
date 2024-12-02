@@ -1,12 +1,12 @@
-import pygame
-import time
-from algorithms import a_star, dijkstra, bfs, dfs
-from utils import draw_grid, create_grid, generate_obstacles
+import pygame  # Importa la librería pygame para crear la interfaz gráfica
+import time  # Importa time para controlar la velocidad de la animación
+from algorithms import a_star, dijkstra, bfs, dfs  # Importa los algoritmos de búsqueda
+from utils import draw_grid, create_grid, generate_obstacles  # Importa funciones de utilidades
 
 # Constantes de la ventana
-WIDTH, HEIGHT = 600, 600
-ROWS, COLS = 20, 20
-BLOCK_SIZE = WIDTH // COLS
+WIDTH, HEIGHT = 600, 600  # Ancho y alto de la ventana
+ROWS, COLS = 20, 20  # Número de filas y columnas en la cuadrícula
+BLOCK_SIZE = WIDTH // COLS  # Tamaño de cada celda
 
 # Colores
 WHITE = (255, 255, 255)
@@ -17,11 +17,14 @@ BLUE = (0, 0, 255)
 GRAY = (200, 200, 200)
 
 # Inicialización de Pygame
-pygame.init()
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Visualizador de Algoritmos")
+pygame.init()  # Inicializa pygame
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))  # Crea la ventana
+pygame.display.set_caption("Visualizador de Algoritmos")  # Título de la ventana
 
 def select_algorithm():
+    """
+    Función para seleccionar el algoritmo de búsqueda.
+    """
     print("\nSelecciona un algoritmo:")
     print("1. A*")
     print("2. Dijkstra")
@@ -41,35 +44,34 @@ def select_algorithm():
         return a_star
 
 def main():
-    grid = create_grid(COLS, ROWS)
-    start = None
-    end = None
-    algorithm = None
-    running = True
+    grid = create_grid(COLS, ROWS)  # Crea una cuadrícula vacía
+    start = None  # Posición de inicio
+    end = None  # Posición final
+    algorithm = None  # Algoritmo seleccionado
+    running = True  # Variable para mantener el bucle principal
 
     while running:
-        draw_grid(WIN, grid, ROWS, COLS, BLOCK_SIZE)
+        draw_grid(WIN, grid, ROWS, COLS, BLOCK_SIZE)  # Dibuja la cuadrícula
         pygame.display.flip()  # Actualiza la pantalla
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT:  # Si se cierra la ventana
                 running = False
                 pygame.quit()
 
             # Seleccionar punto inicial, final y obstáculos
             if pygame.mouse.get_pressed()[0]:  # Click izquierdo
-                x, y = pygame.mouse.get_pos()
-                row, col = y // BLOCK_SIZE, x // BLOCK_SIZE
+                x, y = pygame.mouse.get_pos()  # Obtiene la posición del clic
+                row, col = y // BLOCK_SIZE, x // BLOCK_SIZE  # Convierte la posición del clic a una celda de la cuadrícula
                 if not start:
-                    start = (row, col)
+                    start = (row, col)  # Establece la posición de inicio
                     grid[row][col] = 2  # Nodo inicial
                 elif not end:
-                    end = (row, col)
+                    end = (row, col)  # Establece la posición final
                     grid[row][col] = 3  # Nodo final
                     # Seleccionar algoritmo después de colocar el nodo final
                     algorithm = select_algorithm()
                     print(f"Ejecutando {algorithm.__name__}...")
-                    
                 else:
                     if grid[row][col] == 1:
                         grid[row][col] = 0  # Convertir obstáculo en espacio libre
@@ -77,7 +79,7 @@ def main():
                         grid[row][col] = 1  # Convertir espacio libre en obstáculo
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and start and end:
+                if event.key == pygame.K_SPACE and start and end:  # Si se presiona la tecla espacio y se han seleccionado las posiciones de inicio y final
                     # Ejecutar el algoritmo
                     path = algorithm(
                         start, end, grid, COLS, ROWS,
@@ -106,7 +108,7 @@ def main():
 
         pygame.time.delay(50)  # Añade un pequeño retraso para permitir la actualización de la pantalla
 
-    pygame.quit()
+    pygame.quit()  # Cierra pygame
 
 if __name__ == "__main__":
-    main()
+    main()  # Ejecuta la función principal
