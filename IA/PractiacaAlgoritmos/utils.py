@@ -111,3 +111,15 @@ def set_end(grid, pos):
     """
     row, col = pos
     grid[row][col] = 3
+
+# Función para dibujar el camino encontrado
+def draw_path(screen, path, cell_size):
+    """
+    Dibuja el camino encontrado en la pantalla de `pygame`.
+    - screen: Superficie donde se dibuja.
+    - path: Lista de celdas que forman el camino.
+    - cell_size: Tamaño de cada celda en píxeles.
+    """
+    for row, col in path:
+        pygame.draw.rect(screen, PURPLE, (col * cell_size, row * cell_size, cell_size, cell_size))
+    pygame.display.flip()  # Actualiza la pantalla después de dibujar el camino

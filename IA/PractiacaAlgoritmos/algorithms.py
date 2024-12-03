@@ -35,6 +35,9 @@ def a_star(start, end, grid, cols, rows, draw_grid, speed=0.5):
                 path.append(current)
                 current = came_from[current]
             path.reverse()
+            for row, col in path:
+                if grid[row][col] != 2 and grid[row][col] != 3:  # No sobrescribir inicio y final
+                    grid[row][col] = 6  # Camino encontrado
             return path
 
         for neighbor in get_neighbors(current, grid, cols, rows):
@@ -72,6 +75,9 @@ def dijkstra(start, end, grid, cols, rows, draw_grid, speed=0.5):
                 path.append(current)
                 current = came_from[current]
             path.reverse()
+            for row, col in path:
+                if grid[row][col] != 2 and grid[row][col] != 3:  # No sobrescribir inicio y final
+                    grid[row][col] = 6  # Camino encontrado
             return path
 
         for neighbor in get_neighbors(current, grid, cols, rows):
@@ -108,6 +114,9 @@ def bfs(start, end, grid, cols, rows, draw_grid, speed=0.5):
                 path.append(current)
                 current = came_from[current]
             path.reverse()
+            for row, col in path:
+                if grid[row][col] != 2 and grid[row][col] != 3:  # No sobrescribir inicio y final
+                    grid[row][col] = 6  # Camino encontrado
             return path
 
         for neighbor in get_neighbors(current, grid, cols, rows):
@@ -143,6 +152,9 @@ def dfs(start, end, grid, cols, rows, draw_grid, speed=0.5):
                 path.append(current)
                 current = came_from[current]
             path.reverse()
+            for row, col in path:
+                if grid[row][col] != 2 and grid[row][col] != 3:  # No sobrescribir inicio y final
+                    grid[row][col] = 6  # Camino encontrado
             return path
 
         for neighbor in get_neighbors(current, grid, cols, rows):

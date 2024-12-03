@@ -1,7 +1,7 @@
 import pygame  # Importa la librería pygame para crear la interfaz gráfica
 import threading  # Importa threading para ejecutar algoritmos en paralelo
 import time  # Importa time para medir el tiempo de ejecución
-from utils import create_grid, generate_obstacles, draw_grid, get_clicked_pos  # Importa funciones de utilidades
+from utils import create_grid, generate_obstacles, draw_grid, get_clicked_pos, draw_path  # Importa funciones de utilidades
 from algorithms import a_star, dijkstra, bfs, dfs  # Importa los algoritmos de búsqueda
 
 # Configuración de la ventana
@@ -22,9 +22,12 @@ def run_algorithm(algorithm, grid, start, end, screen, offset, label, speed=0.1)
         pygame.display.flip()  # Actualiza la pantalla
 
     start_time = time.time()  # Tiempo de inicio
-    algorithm(start, end, grid, COLS, ROWS, draw, speed)  # Ejecuta el algoritmo
+    path = algorithm(start, end, grid, COLS, ROWS, draw, speed)  # Ejecuta el algoritmo
     end_time = time.time()  # Tiempo de finalización
     print(f"algorithm: {label} tomo {end_time - start_time:.2f} segundos")  # Muestra el tiempo de ejecución
+
+    # Dibujar el camino encontrado
+    draw_path(screen, path, CELL_SIZE)
 
 def main():
     pygame.init()  # Inicializa pygame
