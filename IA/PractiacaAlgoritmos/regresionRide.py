@@ -1,24 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-X = np.array([2019, 2020, 2021, 2022, 2023, 2024])
-yd = np.array([4.0, 5.0 ,6.5 ,7.0 ,8.5 ,12.0])
-
-X_norm = normalizacion(X)
-
-def normalizacion(X):
-    X_max = max(X)
-    X_min = min(X)
-    return (X-X_min)/(X_max-X_min)
-
-X_test = float(input("Introdusca el año a predecir"))
-X_norm= normalizacion(X_test)
-Y_test = b0 + b1*X_norm
-print("Para el año {X_test} se estiman {Y_test} millones de ventas")
-
-X = X_norm
+## Definicion de los daros de entrada
+X = np.array([1.0,3.0,6.0,9.0,11.0,15.0,16.0,19.0,24.0])
+yd = np.array([4.0,5.0,6.5,7.0,8.5,12.0,13.0,16.0,22.0])
 
 ## Definicion de los hiperparametros
+
 lr = 0.01
 epocas = 5000
 b0 = 0.1 ## Se recomienda inicializar entre 0 y 1 de forma random
